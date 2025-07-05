@@ -1,3 +1,5 @@
+const { NegativeNumberNotAllowedError} = require('./error');
+
 // Characters like *, +, ?, . aren't just characters in regex — they control how patterns behave
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -28,6 +30,11 @@ function add(numbers) {
 
     const { delimiter, numbers: cleanedNumbers } = extractDelimiter(numbers);
     const numberArray = splitNumbers(cleanedNumbers, delimiter);
+
+    const negatives = numberArray.filter(num => num < 0);
+    if (negatives.length > 0) {
+        throw new NegativeNumberNotAllowedError(negatives);
+    }
 
     return numberArray.reduce((sum, num) => sum + num, 0);
 }
