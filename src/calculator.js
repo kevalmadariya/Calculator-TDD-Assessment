@@ -8,13 +8,16 @@ function escapeRegExp(string) {
 function extractDelimiter(numbers) {
     if (numbers.startsWith('//')) {
         
-        // Match multi-character delimiters like //[***]\n
-        const multiDelimiterMatch = numbers.match(/^\/\/\[(.+)\]\n/);
+        const multiDelimiterMatch = numbers.match(/^\/\/((?:\[[^\]]+\])+)\n/);//Change for multiDelimiterMatch
         if (multiDelimiterMatch) {
-            const rawDelimiter = multiDelimiterMatch[1];
-            const escapedDelimiter = escapeRegExp(rawDelimiter);
+
+            const delimiterPart = multiDelimiterMatch[1]; // e.g. [***][%]
+            const delimiterMatches = [...delimiterPart.matchAll(/\[(.*?)\]/g)];
+            const delimiters = delimiterMatches.map(match => escapeRegExp(match[1])); 
+            const delimiterRegex = new RegExp(delimiters.join('|'));
             const remainingNumbers = numbers.slice(multiDelimiterMatch[0].length);
-            return { delimiter: new RegExp(escapedDelimiter), numbers: remainingNumbers };
+
+            return { delimiter: delimiterRegex, numbers: remainingNumbers };
         }
 
         // Match single-character delimiters like //;\n
@@ -33,16 +36,16 @@ function extractDelimiter(numbers) {
 
 // Function to split string into numbers using the provided delimiter
 function splitNumbers(numbers, delimiter) {
-    return numbers.split(delimiter).map(Number);
+    return numbers.split(delimiter);
 }
-
 
 // Main add function
 function add(numbers) {
     if (numbers === '') return 0;
 
     const { delimiter, numbers: cleanedNumbers } = extractDelimiter(numbers);
-    const numberArray = splitNumbers(cleanedNumbers, delimiter);
+    const numberParts = splitNumbers(cleanedNumbers, delimiter);
+    const numberArray = numberParts.map(Number);
 
     const negatives = numberArray.filter(num => num < 0);
     if (negatives.length > 0) {
