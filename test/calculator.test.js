@@ -46,4 +46,11 @@ describe('Add method tests', () => {
         expect(add('//[***][%%]\n1***2%%3')).toBe(6);
     });// 9
 
+    test('Tracks how many times add() was called using GetCalledCount', () => {
+        add('1,2'); // Call 1
+        add('4');   // Call 2
+        add('');    // Call 3
+        expect(GetCalledCount()).toBe(3);
+    });//10
+
 })
