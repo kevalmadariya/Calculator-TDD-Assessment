@@ -20,4 +20,9 @@ describe('Add method tests', () => {
     test('Returns addition of comma-separated numbers in string', ()=>{
         expect(add('1,2,3')).toBe(6);
     });// 3
+
+    test('Returns addition of numbers in string which are separated by new line', ()=>{
+        expect(add("1\n2,3")).toBe(6);
+    });// 4
+
 })
