@@ -42,4 +42,8 @@ describe('Add method tests', () => {
         expect(add('//[***]\n1***1001***3')).toBe(4);
     });// 8
 
+    test('Supports multiple delimiters of any length', () => {
+        expect(add('//[***][%%]\n1***2%%3')).toBe(6);
+    });// 9
+
 })
