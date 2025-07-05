@@ -1,4 +1,4 @@
-const { add } = require('../src/calculator')
+const { add , ResetCalledCount , GetCalledCount} = require('../src/calculator')
 const { NegativeNumberNotAllowedError } = require('../src/error');
 
 //init
@@ -6,6 +6,12 @@ describe('Sanity checks', () => {
     test('Testing environment is operational', () => {
         expect(1).toBe(1);
     });
+});
+
+
+beforeEach(() => {
+    // Reset call count before each test
+    ResetCalledCount();
 });
 
 describe('Add method tests', () => {

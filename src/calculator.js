@@ -1,9 +1,17 @@
 const { NegativeNumberNotAllowedError} = require('./error');
 
+let addCallCount = 0; 
+
+function ResetCalledCount() {
+    addCallCount = 0;
+}
+
+
 // Characters like *, +, ?, . aren't just characters in regex — they control how patterns behave
 function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
 
 function extractDelimiter(numbers) {
     if (numbers.startsWith('//')) {
@@ -39,8 +47,12 @@ function splitNumbers(numbers, delimiter) {
     return numbers.split(delimiter);
 }
 
+
 // Main add function
 function add(numbers) {
+
+    addCallCount++; // Track number of calls
+
     if (numbers === '') return 0;
 
     const { delimiter, numbers: cleanedNumbers } = extractDelimiter(numbers);
@@ -53,6 +65,13 @@ function add(numbers) {
     }
 
     const validNumbers = numberArray.filter(num => num <= 1000);
-    return validNumbers.reduce((sum, num) => sum + num, 0);}
+    return validNumbers.reduce((sum, num) => sum + num, 0);
+}
 
-module.exports = { add };
+
+function GetCalledCount() {
+    return addCallCount;
+}
+
+
+module.exports = { add, GetCalledCount, ResetCalledCount };
