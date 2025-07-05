@@ -36,7 +36,7 @@ function add(numbers) {
         throw new NegativeNumberNotAllowedError(negatives);
     }
 
-    return numberArray.reduce((sum, num) => sum + num, 0);
-}
+    const validNumbers = numberArray.filter(num => num <= 1000);
+    return validNumbers.reduce((sum, num) => sum + num, 0);}
 
 module.exports = { add };
