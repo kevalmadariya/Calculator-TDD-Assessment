@@ -20,6 +20,4 @@ describe('Add method tests', () => {
     test('Returns addition of comma-separated numbers in string', ()=>{
         expect(add('1,2,3')).toBe(6);
     });// 3
-
-
 })
