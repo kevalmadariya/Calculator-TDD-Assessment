@@ -8,7 +8,13 @@ describe('Sanity checks', () => {
 });
 
 describe('Add method tests', () => {
+    
     test('Returns 0 as sum for an empty string ', () => {
         expect(add('')).toBe(0)
     });// 1
+
+    test('Returns number it self for a single number string', () =>{
+       expect(add('7')).toBe(7);
+    });// 2
+
 })
