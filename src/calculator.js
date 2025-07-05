@@ -3,22 +3,32 @@ function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function extractDelimiter(numbers) {
+    if (numbers.startsWith('//')) {
+        const delimiterMatch = numbers.match(/^\/\/(.+)\n/);
+        if (delimiterMatch) {
+            const customDelimiter = escapeRegExp(delimiterMatch[1]);
+            const remainingNumbers = numbers.slice(delimiterMatch[0].length);
+            return { delimiter: new RegExp(customDelimiter), numbers: remainingNumbers };
+        }
+    }
+    return { delimiter: /,|\n/, numbers }; // default delimiters
+}
+
+
+// Function to split string into numbers using the provided delimiter
+function splitNumbers(numbers, delimiter) {
+    return numbers.split(delimiter).map(Number);
+}
+
+
+// Main add function
 function add(numbers) {
     if (numbers === '') return 0;
 
-    let delimiter = /,|\n/; 
+    const { delimiter, numbers: cleanedNumbers } = extractDelimiter(numbers);
+    const numberArray = splitNumbers(cleanedNumbers, delimiter);
 
-    if (numbers.startsWith('//')) {
-    
-        const delimiterLine = numbers.match(/^\/\/(.)\n/);
-        if (delimiterLine) {
-            delimiter = new RegExp(escapeRegExp(delimiterLine[1]));// Escape delimiter to handle special regex characters
-            numbers = numbers.slice(delimiterLine[0].length);
-        }
-
-    }
-
-    const numberArray = numbers.split(delimiter).map(Number);
     return numberArray.reduce((sum, num) => sum + num, 0);
 }
 
