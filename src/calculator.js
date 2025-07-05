@@ -7,14 +7,27 @@ function escapeRegExp(string) {
 
 function extractDelimiter(numbers) {
     if (numbers.startsWith('//')) {
-        const delimiterMatch = numbers.match(/^\/\/(.+)\n/);
-        if (delimiterMatch) {
-            const customDelimiter = escapeRegExp(delimiterMatch[1]);
-            const remainingNumbers = numbers.slice(delimiterMatch[0].length);
-            return { delimiter: new RegExp(customDelimiter), numbers: remainingNumbers };
+        
+        // Match multi-character delimiters like //[***]\n
+        const multiDelimiterMatch = numbers.match(/^\/\/\[(.+)\]\n/);
+        if (multiDelimiterMatch) {
+            const rawDelimiter = multiDelimiterMatch[1];
+            const escapedDelimiter = escapeRegExp(rawDelimiter);
+            const remainingNumbers = numbers.slice(multiDelimiterMatch[0].length);
+            return { delimiter: new RegExp(escapedDelimiter), numbers: remainingNumbers };
+        }
+
+        // Match single-character delimiters like //;\n
+        const singleDelimiterMatch = numbers.match(/^\/\/(.)\n/);
+        if (singleDelimiterMatch) {
+            const rawDelimiter = singleDelimiterMatch[1];
+            const escapedDelimiter = escapeRegExp(rawDelimiter);
+            const remainingNumbers = numbers.slice(singleDelimiterMatch[0].length);
+            return { delimiter: new RegExp(escapedDelimiter), numbers: remainingNumbers };
         }
     }
-    return { delimiter: /,|\n/, numbers }; // default delimiters
+
+    return { delimiter: /,|\n/, numbers }; // Default delimiters
 }
 
 
