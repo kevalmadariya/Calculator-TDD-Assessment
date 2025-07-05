@@ -38,4 +38,8 @@ describe('Add method tests', () => {
         expect(add('//;\n1000;1001;3')).toBe(1003);
     });// 7
 
+    test('Supports delimiters of any length and ignores numbers greater than 1000', () => {
+        expect(add('//[***]\n1***1001***3')).toBe(4);
+    });// 8
+
 })
