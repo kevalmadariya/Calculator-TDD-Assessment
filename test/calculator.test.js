@@ -17,4 +17,9 @@ describe('Add method tests', () => {
        expect(add('7')).toBe(7);
     });// 2
 
+    test('Returns addition of comma-separated numbers in string', ()=>{
+        expect(add('1,2,3')).toBe(6);
+    });// 3
+
+
 })
