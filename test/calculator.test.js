@@ -25,4 +25,8 @@ describe('Add method tests', () => {
         expect(add("1\n2,3")).toBe(6);
     });// 4
 
+    test('Returns addition of numbers using custom delimiter', ()=>{
+        expect(add("//;\n1;2")).toBe(3);
+    });// 5
+
 })
