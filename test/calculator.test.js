@@ -34,4 +34,8 @@ describe('Add method tests', () => {
         expect(() => add('1,-2,-3,4,-5')).toThrow(NegativeNumberNotAllowedError);
     });// 6
 
+     test('Ignores numbers greater than 1000 while using custom delimiter', () => {
+        expect(add('//;\n1000;1001;3')).toBe(1003);
+    });// 7
+
 })
