@@ -1,3 +1,5 @@
+const {add} = require('../src/calculator')
+
 //init
 describe('Sanity checks', () => {
     test('Testing environment is operational', () => {
