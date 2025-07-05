@@ -1,8 +1,9 @@
 
 function add(numbers) {
     if (numbers === '') return 0;
-    
-    const numberArray = numbers.split(',').map(Number);
+
+    //replace new line with ',' and handle as comma seprated value handle
+    const numberArray = numbers.replace(/\n/g, ',').split(',').map(Number);
     return numberArray.reduce((sum, num) => sum + num, 0);
 }
 
